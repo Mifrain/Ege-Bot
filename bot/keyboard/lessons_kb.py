@@ -5,8 +5,8 @@ from db import pydb
 
 async def choose_kb(type):
     return InlineKeyboardMarkup(row_width=2).add(InlineKeyboardButton('Прототипы 🧾', callback_data=f'{type}_prot'),
-                                    InlineKeyboardButton('Материалы 📁', callback_data=f'{type}_mat'),
-                                    InlineKeyboardButton('⛔️ Тесты 📝 ⛔️', callback_data=f'{type}_test')).add(InlineKeyboardButton('К Предметам 📚', callback_data='menu_edc'))
+                                    InlineKeyboardButton('Материалы 📁', callback_data=f'{type}_mat')
+                                    ).add(InlineKeyboardButton('К Предметам 📚', callback_data='menu_edc'))
 
 
 async def sort_lessons(lessons):

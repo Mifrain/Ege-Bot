@@ -12,47 +12,47 @@ from db import pydb
 
 
 async def admin_menu(call: CallbackQuery):
-    await call.message.delete()
+    # await call.message.delete()
     await call.answer()
     res = call.data.split('_')[1]
     if res == 'main':
-        await call.message.answer('<b>⚒ Панель Администратора ⚒</b>', reply_markup=await admin_kb(call.from_user.id))
+        await call.message.edit_text('<b>⚒ Панель Администратора ⚒</b>', reply_markup=await admin_kb(call.from_user.id))
         
     elif res == 'admin':
         opt = call.data.split('_')[2]
         if opt == 'add':
-            await call.message.answer('<b>Введите ID нового администратора</b>', reply_markup=admin_back_kb)
+            await call.message.edit_text('<b>Введите ID нового администратора</b>', reply_markup=admin_back_kb)
             await admin_states.AddAdminState.adm_id.set()
         elif opt == 'del':
-            await call.message.answer('<b>Нажмите на ID Администратора, которого собираетесь удалить</b>', reply_markup=await del_adm_kb())
+            await call.message.edit_text('<b>Нажмите на ID Администратора, которого собираетесь удалить</b>', reply_markup=await del_adm_kb())
         elif opt == 'delpage':
             page = call.data.split('_')[3]
-            await call.message.answer(f'<b>Нажмите на ID Администратора, которого собираетесь удалить</b>', reply_markup= await del_adm_kb(page))
+            await call.message.edit_text(f'<b>Нажмите на ID Администратора, которого собираетесь удалить</b>', reply_markup= await del_adm_kb(page))
         elif opt == 'delid':
             admin_id = call.data.split('_')[3]
             pydb.user_del_admin(admin_id)
-            await call.message.answer('✅ <b>Администратор Удален👤</b> ✅', reply_markup=admin_back_kb)
+            await call.message.edit_text('✅ <b>Администратор Удален👤</b> ✅', reply_markup=admin_back_kb)
         
     elif res == 'prot':
         opt = call.data.split('_')[2]
         if opt == 'choose':
-            await call.message.answer('<b>Редактирование Прототипов🧾</b>', reply_markup=admin_les_kb('prot'))
+            await call.message.edit_text('<b>Редактирование Прототипов🧾</b>', reply_markup=admin_les_kb('prot'))
         elif opt == 'add':
-            await call.message.answer('<b>Введите через запятую тип, имя, callback прототипа</b>\n\n<i>Пример: rus, Номер 8, rus_protnum_8, ссылка на файл</i>\n\nТипы:\nРусский Язык - rus\nМатематика База - mathbase\nМатематика Профиль - mathprof\nИнформатика - inf\nИтоговое Сочинение - is', reply_markup=admin_back_kb)
+            await call.message.edit_text('<b>Введите через запятую тип, имя, callback прототипа</b>\n\n<i>Пример: rus, Номер 8, rus_protnum_8, ссылка на файл</i>\n\nТипы:\nРусский Язык - rus\nМатематика База - mathbase\nМатематика Профиль - mathprof\nИнформатика - inf\nИтоговое Сочинение - is', reply_markup=admin_back_kb)
             await admin_states.AddProtState.new_prot.set()
         elif opt == 'del':
-            await call.message.answer('<b>Введите через callback прототипа, чтобы удалить его</b>\n\n<i>Пример: rus_protnum_8</i>', reply_markup=admin_back_kb)
+            await call.message.edit_text('<b>Введите через callback прототипа, чтобы удалить его</b>\n\n<i>Пример: rus_protnum_8</i>', reply_markup=admin_back_kb)
             await admin_states.DelProtState.del_prot.set()
             
     elif res == 'mat':
         opt = call.data.split('_')[2]
         if opt == 'choose':
-            await call.message.answer('<b>Редактирование Материалов📁</b>', reply_markup=admin_les_kb('mat'))
+            await call.message.edit_text('<b>Редактирование Материалов📁</b>', reply_markup=admin_les_kb('mat'))
         elif opt == 'add':
-            await call.message.answer('<b>Введите через запятую тип, имя, callback, файл прототипа</b>\n\n<i>Пример: rus, Номер 8, rus_matnum_8, ссылка на файл</i>\n\nТипы:\nРусский Язык - rus\nМатематика База - mathbase\nМатематика Профиль - mathprof\nИнформатика - inf\nИтоговое Сочинение - is', reply_markup=admin_back_kb)
+            await call.message.edit_text('<b>Введите через запятую тип, имя, callback, файл прототипа</b>\n\n<i>Пример: rus, Номер 8, rus_matnum_8, ссылка на файл</i>\n\nТипы:\nРусский Язык - rus\nМатематика База - mathbase\nМатематика Профиль - mathprof\nИнформатика - inf\nИтоговое Сочинение - is', reply_markup=admin_back_kb)
             await admin_states.AddMatState.new_mat.set()
         elif opt == 'del':
-            await call.message.answer('<b>Введите через callback прототипа, чтобы удалить его</b>\n\n<i>Пример: rus_matnum_8</i>', reply_markup=admin_back_kb)
+            await call.message.edit_text('<b>Введите через callback прототипа, чтобы удалить его</b>\n\n<i>Пример: rus_matnum_8</i>', reply_markup=admin_back_kb)
             await admin_states.DelMatState.del_mat.set()
 
 
@@ -67,8 +67,8 @@ async def add_admin(mess: Message, state=FSMContext):
 
 async def back_admin_state(call: CallbackQuery,state=FSMContext):
     await call.answer()
-    await call.message.delete()
-    await call.message.answer('<b>⚒ Панель Администратора ⚒</b>', reply_markup=await admin_kb(call.from_user.id))
+    # await call.message.delete()
+    await call.message.edit_text('<b>⚒ Панель Администратора ⚒</b>', reply_markup=await admin_kb(call.from_user.id))
     await state.finish()
 
 
