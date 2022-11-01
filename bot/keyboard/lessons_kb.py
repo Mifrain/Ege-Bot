@@ -3,6 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from db import pydb
 
 
+
 async def choose_kb(type):
     return InlineKeyboardMarkup(row_width=2).add(InlineKeyboardButton('Прототипы 🧾', callback_data=f'{type}_prot'),
                                     InlineKeyboardButton('Материалы 📁', callback_data=f'{type}_mat')
@@ -50,6 +51,8 @@ async def lesson_link_kb(callback:str, type, user_id=None, fromm=None):
     )
     
     
+from handlers.lessons import objects
+
 # Избранные задания
 async def lesson_like_kb(user_id, page=0):
     
@@ -58,7 +61,7 @@ async def lesson_like_kb(user_id, page=0):
     page = int(page)
     
     for btn in range(5*page, 5*page + 5 if 5*page + 5 < len(lessons) else len(lessons)):
-        kb.add(InlineKeyboardButton(pydb.name_lesson(lessons[btn][1]), callback_data=f'like/num/{lessons[btn][1]}/likes'))
+        kb.add(InlineKeyboardButton(f'{pydb.name_lesson(lessons[btn][1])} {objects.get(str(lessons[btn][1]).split("_")[0]).split(" ")[0]}', callback_data=f'like/num/{lessons[btn][1]}/likes'))
         
     kb.row(
         InlineKeyboardButton('⬅' if page-1 >= 0 else '❌', callback_data=f'menu_likes_page_{page-1 if page-1 >= 0 else page}'),

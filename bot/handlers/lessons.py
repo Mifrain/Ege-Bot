@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters import Text
 from keyboard.lessons_kb import lesson_kb, lesson_link_kb, choose_kb
 from db import pydb
 
-objects = {'rus': '🇷🇺<b>Русский Язык</b>🇷🇺', 'mathbase': '📐 <b>Математика База</b> 📐', 'mathprof': '🔢 <b>Математика Проф</b> 🔢', 'inf': '🖥 <b>Информатика</b> 🖥', 'is': '📖 <b>Итоговое Сочинение</b> 📖'}
+objects = {'rus': '🇷🇺 <b>Русский Язык</b> 🇷🇺', 'mathbase': '📐 <b>Математика База</b> 📐', 'mathprof': '🔢 <b>Математика Проф</b> 🔢', 'inf': '🖥 <b>Информатика</b> 🖥', 'is': '📖 <b>Итоговое Сочинение</b> 📖'}
 
 async def les_call(call: CallbackQuery):
     await call.answer()
