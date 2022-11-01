@@ -9,6 +9,7 @@ from keyboard.client_kb import *
 from keyboard.admin_kb import *
 from db import pydb
 
+   
 
 
 async def admin_menu(call: CallbackQuery):
@@ -54,6 +55,10 @@ async def admin_menu(call: CallbackQuery):
         elif opt == 'del':
             await call.message.edit_text('<b>Введите через callback прототипа, чтобы удалить его</b>\n\n<i>Пример: rus_matnum_8</i>', reply_markup=admin_back_kb)
             await admin_states.DelMatState.del_mat.set()
+            
+    elif res == 'send':
+        await call.message.answer('Введите сообщения для общей рассылки\nОтправьте <b>none</b> для отмены отправки')
+        await admin_states.SendSpamState.send.set()
 
 
 
@@ -109,8 +114,19 @@ async def change_les(mess: Message, state=FSMContext):
         await mess.delete()
         await state.finish()
 
-    
 
+
+async def send_spam_mess(mess: Message, state=FSMContext):
+    if mess.text.lower() == 'none':
+        await mess.answer('Ничего не отправлено')
+    else:
+        for id in pydb.all_users():
+            from main import bot
+            await bot.send_message(id, mess.text)
+        await mess.answer('✅ Сообщения были доставленны ✅')
+    await mess.answer('🏠<b>Главное Меню</b>🏠', reply_markup=await main_kb(mess.from_user.id))
+    await state.finish()
+         
 
 
 
@@ -130,6 +146,8 @@ def admin_handlers(dp: Dispatcher):
     dp.register_message_handler(change_les, state = admin_states.DelProtState.del_prot)
     dp.register_message_handler(change_les, state = admin_states.AddMatState.new_mat)
     dp.register_message_handler(change_les, state = admin_states.DelMatState.del_mat)
+    
+    dp.register_message_handler(send_spam_mess, state= admin_states.SendSpamState.send)
 
 
 

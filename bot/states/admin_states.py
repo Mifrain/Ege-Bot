@@ -16,3 +16,7 @@ class AddMatState(StatesGroup):
     
 class DelMatState(StatesGroup):
     del_mat = State()
+    
+
+class SendSpamState(StatesGroup):
+    send = State()
