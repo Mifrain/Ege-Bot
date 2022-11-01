@@ -12,8 +12,7 @@ async def admin_kb(user_id):
     if pydb.user_is_main_admin(user_id):
         kb.row(
             InlineKeyboardButton('✅ Добавить Админа 👥', callback_data='adm_admin_add'),
-            InlineKeyboardButton('❌ Удалить Админа 👤', callback_data='adm_admin_del'),
-            InlineKeyboardButton('🔔 Оповестить всех 🔔', callback_data='adm_send'))
+            InlineKeyboardButton('❌ Удалить Админа 👤', callback_data='adm_admin_del')).add(InlineKeyboardButton('🔔 Оповестить всех 🔔', callback_data='adm_send'))
     kb.add(InlineKeyboardButton('Главное меню 🏠', callback_data='menu_main'))
     return kb
 
