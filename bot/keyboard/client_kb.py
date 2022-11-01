@@ -10,7 +10,7 @@ async def main_kb(user_id):
     kb = InlineKeyboardMarkup(row_width=2).add(
             InlineKeyboardButton('Предметы 📚', callback_data='menu_edc'),
             InlineKeyboardButton('Профиль 👤', callback_data='menu_prof'),
-            InlineKeyboardButton('Стастистика Бота 📊', callback_data='menu_stat'),
+            InlineKeyboardButton('Избранное ❤️', callback_data='menu_likes'),
             InlineKeyboardButton('Поддержка 🆘', callback_data='menu_sup')
         )
     # Клавиша для Админов

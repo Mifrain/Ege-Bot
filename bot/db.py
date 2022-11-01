@@ -27,6 +27,28 @@ class DataBase:
     def select_file(self, callback):
         with self.conn:
             return self.cur.execute('SELECT file FROM lessons WHERE callback = ?', (callback,)).fetchone()[0]
+        
+    # favorites lessons
+    def all_like_lesson(self, user_id):
+        with self.conn:
+            return self.cur.execute('SELECT * FROM favorites WHERE user_id = ?', (user_id,)).fetchall()
+    
+    def add_like_lesson(self, user_id, callback):
+        with self.conn:
+            self.cur.execute('INSERT INTO favorites VALUES (?,?)', (user_id, callback))
+            
+    def del_like_lesson(self, user_id, callback):
+        with self.conn:
+            self.cur.execute('DELETE FROM favorites WHERE user_id = ? AND less_id = ?', (user_id, callback,))
+
+    def check_like_lesson(self, user_id, callback):
+        with self.conn:
+            a = self.cur.execute('SELECT * FROM favorites WHERE user_id = ? AND less_id = ?', (user_id, callback,)).fetchone()
+            if a == None:
+                return False
+            return True
+        
+
 
     
     # USER
@@ -45,8 +67,8 @@ class DataBase:
         with self.conn:
             return self.cur.execute('SELECT user_id FROM user').fetchall()
     
-    # Admin
     
+    # ADMIN
     def all_admins(self):
         with self.conn:
             return self.cur.execute('SELECT user_id FROM user WHERE is_admin = 1 AND is_main_admin = 0').fetchall()

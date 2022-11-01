@@ -5,16 +5,14 @@ from aiogram.dispatcher.filters import Text
 from keyboard.lessons_kb import lesson_kb, lesson_link_kb, choose_kb
 from db import pydb
 
+objects = {'rus': '🇷🇺<b>Русский Язык</b>🇷🇺', 'mathbase': '📐 <b>Математика База</b> 📐', 'mathprof': '🔢 <b>Математика Проф</b> 🔢', 'inf': '🖥 <b>Информатика</b> 🖥', 'is': '📖 <b>Итоговое Сочинение</b> 📖'}
+
 async def les_call(call: CallbackQuery):
     await call.answer()
     # await call.message.delete()
     res = call.data.split('_')[1]
     obj = call.data.split('_')[0]
-    if obj == 'rus': txt = '🇷🇺<b>Русский Язык</b>🇷🇺'
-    elif obj == 'mathbase': txt = '📐 <b>Математика База</b> 📐'
-    elif obj == 'mathprof': txt = '🔢 <b>Математика Проф</b> 🔢'
-    elif obj == 'inf': txt = '🖥 <b>Информатика</b> 🖥'
-    elif obj == 'is': txt = '📖 <b>Итоговое Сочинение</b> 📖'
+    txt = objects.get(obj)
     
     if res == 'les':
         await call.message.edit_text(f'{txt}', reply_markup=await choose_kb(obj))
@@ -28,7 +26,7 @@ async def les_call(call: CallbackQuery):
         await call.message.edit_text(f'{txt}\n\n<b>Прототипы🧾:</b>', reply_markup= await lesson_kb(obj, 'prot', page))
         
     elif res == 'protnum':
-        await call.message.edit_text(f'{txt}\n\n<b>Номер {call.data.split("_")[2]}\n</b>', reply_markup= await lesson_link_kb(call.data, 'prot'))
+        await call.message.edit_text(f'{txt}\n\n<b>Номер {call.data.split("_")[2]}\n</b>', reply_markup= await lesson_link_kb(call.data, 'prot', call.from_user.id))
 
 
     # Материалы
@@ -41,7 +39,7 @@ async def les_call(call: CallbackQuery):
 
     elif res == 'matnum':
         name = pydb.name_lesson(call.data)
-        await call.message.edit_text(f'{txt}\n\n<b>{name}</b>', reply_markup= await lesson_link_kb(call.data, 'mat'))
+        await call.message.edit_text(f'{txt}\n\n<b>{name}</b>', reply_markup= await lesson_link_kb(call.data, 'mat', call.from_user.id))
 
     
     
