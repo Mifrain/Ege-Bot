@@ -25,7 +25,7 @@ async def menu_callbackes(call: CallbackQuery):
         await call.message.edit_text('<b>Выбери предмет для получения материалов</b>📚\n\n<i>Предмет ты можешь менять в любое время</i>', reply_markup=lessons_kb)
     elif res == 'prof':
         await call.message.edit_text(f"""<b>• Ваш профиль 👤
-  ❯ Имя {call.from_user.username}
+  ❯ Имя {(call.from_user.username).replace('<', '').replace('>', '')}
   ❯ ID {call.from_user.id}</b>""", reply_markup=menu_back_kb)
     elif res == 'likes':
         if 'page' in call.data:
